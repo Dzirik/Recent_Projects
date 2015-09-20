@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Code Book for Getting and Cleaning Data Peer Assessment</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<h1>Code Book for Getting and Cleaning Data Peer Assessment</h1>
+
+<h2>Definition of Problem</h2>
+
+<p>The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis. You will be graded by your peers on a series of yes/no questions related to the project. You will be required to submit: 1) a tidy data set as described below, 2) a link to a Github repository with your script for performing the analysis, and 3) a code book that describes the variables, the data, and any transformations or work that you performed to clean up the data called CodeBook.md. You should also include a README.md in the repo with your scripts. This repo explains how all of the scripts work and how they are connected.  </p>
+
+<p>One of the most exciting areas in all of data science right now is wearable computing - see for example this article . Companies like Fitbit, Nike, and Jawbone Up are racing to develop the most advanced algorithms to attract new users. The data linked to from the course website represent data collected from the accelerometers from the Samsung Galaxy S smartphone. A full description is available at the site where the data was obtained: </p>
+
+<p><a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones">http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones</a> </p>
+
+<p>Here are the data for the project: </p>
+
+<p><a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a> </p>
+
+<p>You should create one R script called run_analysis.R that does the following. 
+Merges the training and the test sets to create one data set.
+Extracts only the measurements on the mean and standard deviation for each measurement. 
+Uses descriptive activity names to name the activities in the data set
+Appropriately labels the data set with descriptive variable names. 
+Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+Good luck! </p>
+
+<h2>Platform and Version of R Used for Analysis</h2>
+
+<p>platform       x86_64-w64-mingw32<br/>
+arch           x86_64<br/>
+os             mingw32<br/>
+system         x86_64, mingw32<br/>
+status<br/>
+major          3<br/>
+minor          1.1<br/>
+year           2014<br/>
+month          07<br/>
+day            10<br/>
+svn rev        66115<br/>
+language       R<br/>
+version.string R version 3.1.1 (2014-07-10)
+nickname       Sock it to Me  </p>
+
+<h2>Raw Data Set</h2>
+
+<p>The raw data set was obtain from url from section &ldquo;Definition of Problem&rdquo;.</p>
+
+<h2>Script &ldquo;run_analysis.R&rdquo;</h2>
+
+<p>This script performs analysis described in section &ldquo;Definiton of Problem&rdquo;. <strong>The script requires unpacked data file in working directory together with the script.</strong> The script does following:</p>
+
+<ol>
+<li>test directory structure,</li>
+<li>test presence of files and read neccessary ones,</li>
+<li>merge data together and create a base data for furher manipulation (variable <em>baseData</em>)</li>
+<li>extract requested data and merge them. The columns with <em>mean</em> and <em>std</em> in the name are selected for the
+data set from point 2. Name of the variable containing data is <em>dataMeanStd</em>. New variable 
+indicating activity and subject is created and the <em>baseData</em> are grouped with respect to it to a variable <em>dataMeanActivitySubject</em> from request 5.</li>
+<li>Variable <em>dataMeanActivitySubject</em> is saved to txt file <em>secondDataSet.txt</em>.</li>
+</ol>
+
+<h2>Variable names</h2>
+
+<p>Description of variables is from the original dataset:</p>
+
+<p>The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix &#39;t&#39; to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. </p>
+
+<p>Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). </p>
+
+<p>Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the &#39;f&#39; to indicate frequency domain signals). </p>
+
+<p>These signals were used to estimate variables of the feature vector for each pattern:<br/>
+&#39;-XYZ&#39; is used to denote 3-axial signals in the X, Y and Z directions.</p>
+
+<p>tBodyAcc-XYZ
+tGravityAcc-XYZ
+tBodyAccJerk-XYZ
+tBodyGyro-XYZ
+tBodyGyroJerk-XYZ
+tBodyAccMag
+tGravityAccMag
+tBodyAccJerkMag
+tBodyGyroMag
+tBodyGyroJerkMag
+fBodyAcc-XYZ
+fBodyAccJerk-XYZ
+fBodyGyro-XYZ
+fBodyAccMag
+fBodyAccJerkMag
+fBodyGyroMag
+fBodyGyroJerkMag</p>
+
+<p>The set of variables that were estimated from these signals are: </p>
+
+<p>mean(): Mean value
+std(): Standard deviation
+mad(): Median absolute deviation 
+max(): Largest value in array
+min(): Smallest value in array
+sma(): Signal magnitude area
+energy(): Energy measure. Sum of the squares divided by the number of values. 
+iqr(): Interquartile range 
+entropy(): Signal entropy
+arCoeff(): Autorregresion coefficients with Burg order equal to 4
+correlation(): correlation coefficient between two signals
+maxInds(): index of the frequency component with largest magnitude
+meanFreq(): Weighted average of the frequency components to obtain a mean frequency
+skewness(): skewness of the frequency domain signal 
+kurtosis(): kurtosis of the frequency domain signal 
+bandsEnergy(): Energy of a frequency interval within the 64 bins of the FFT of each window.
+angle(): Angle between to vectors.</p>
+
+<p>Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:</p>
+
+<p>gravityMean
+tBodyAccMean
+tBodyAccJerkMean
+tBodyGyroMean
+tBodyGyroJerkMean</p>
+
+<p>The complete list of variables of each feature vector is available in &#39;features.txt&#39;</p>
+
+<p>The new ones were added:</p>
+
+<ul>
+<li>subject - the number of subject</li>
+<li>activityCode - code of activity</li>
+<li>activityName - name of activity</li>
+<li>actSub - variable combining activity and subject for grouping</li>
+</ul>
+
+</body>
+
+</html>
+
